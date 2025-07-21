@@ -3,7 +3,7 @@ name: CI - Otomatik Test
 on:
   push:
     branches:
-      - master  # sadece master'a push yapıldığında çalışır
+      - master
 
 jobs:
   test:
@@ -25,16 +25,3 @@ jobs:
       - name: Testleri çalıştır (pytest)
         run: |
           pytest
-
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: success()
-    steps:
-      - name: Kodları klonla
-        uses: actions/checkout@v3
-
-      - name: Sunucuya deploy et (örnek)
-        run: |
-          echo "Deploy işlemi burada yapılacak"
