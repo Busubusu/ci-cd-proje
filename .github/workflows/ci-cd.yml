@@ -1,0 +1,40 @@
+name: CI - Otomatik Test
+
+on:
+  push:
+    branches:
+      - master  # sadece master'a push yapıldığında çalışır
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodu GitHub'dan klonla
+        uses: actions/checkout@v3
+
+      - name: Python kurulumu
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Gerekli kütüphaneleri yükle
+        run: |
+          pip install -r requirements.txt
+
+      - name: Testleri çalıştır (pytest)
+        run: |
+          pytest
+
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Kodları klonla
+        uses: actions/checkout@v3
+
+      - name: Sunucuya deploy et (örnek)
+        run: |
+          echo "Deploy işlemi burada yapılacak"
